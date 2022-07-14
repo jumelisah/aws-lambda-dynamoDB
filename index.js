@@ -68,12 +68,12 @@ const getProductDetail = async(id) => {
             }
         }
         let body = {
-            message: 'List of product',
+            message: 'Product detail',
         }
-        const allProduct = await scanDynamoRecords(params, []);
+        const allProduct = await dynamoDB.get(params).promise();
         console.log(allProduct)
-        if(allProduct?.length > 0){
-            body.result = allProduct[0];
+        if(allProduct.Item){
+            body.result = allProduct.Item;
         }else{
             body.result = 'No product exist';
         }
