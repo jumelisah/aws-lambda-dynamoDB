@@ -59,6 +59,30 @@ const getProducts = async() => {
     }
 }
 
+const getProductDetail = async(id) => {
+    try{
+        const params = {
+            TableName: dynamoTable,
+            Key: {
+                id
+            }
+        }
+        let body = {
+            message: 'List of product',
+        }
+        const allProduct = await scanDynamoRecords(params, []);
+        console.log(allProduct)
+        if(allProduct?.length > 0){
+            body.result = allProduct[0];
+        }else{
+            body.result = 'No product exist';
+        }
+        return responses(200, body);
+    }catch(e){
+        return responses(400, String(e));
+    }
+}
+
 const addProduct = async(req) => {
     try{
         const params = {
